@@ -7,7 +7,6 @@ function Nav (props){
     // (location.pathname: {this.props.location.pathname})
     console.log(props)
     return(
-        
         <div>
             <h1>Nav</h1>
             {props.profile_pic}
