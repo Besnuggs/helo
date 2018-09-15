@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import {connect} from 'react-redux';
+import {updateStateValues} from './../../ducks/reducer'
 
 class Auth extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
             this.state = {  
             username: '',
             password: ''
@@ -21,24 +23,32 @@ class Auth extends Component {
      }
 
      registerUser(){
-         axios.post(`/api/users`, {username: this.state.username, password: this.state.password})
+         axios.post(`/api/users/`, {username: this.state.username, password: this.state.password}).then(res =>{
+             let info = res.data
+             this.props.updateStateValues(info)
+         }
+         )
      }
 
      loginUser(){
-
+        axios.post('/api/users/', {username: this.state.username, password: this.state.password}).then(res =>{
+            let info = res.data
+            this.props.updateStateValues(info)
+        })
      }
 
     render() { 
-        console.log(this.state)
         return (
             <div>
                 <h1>Username:</h1><input name="username" onChange={this.handleInput} value={this.state.username}></input>
                 <h1>Password:</h1><input name="password" onChange={this.handleInput} value={this.state.password}></input>
-               <Link to='/'><button onClick={this.loginUser}>Login</button></Link>
-               <Link to='/'><button onClick={this.registerUser}>Register</button></Link>
+
+               <Link to='/Dashboard'><button onClick={this.loginUser}>Login</button></Link>
+
+               <Link to='/Dashboard'><button onClick={this.registerUser}>Register</button></Link>
             </div>
           );
     }
 }
  
-export default Auth;
+export default connect (null, {updateStateValues}) (Auth);

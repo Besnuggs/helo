@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express'),
  bodyParser = require('body-parser'),
- massive = require('massive')
+ massive = require('massive'),
  ctrl = require('./controller.js');
 
 const {SERVER_PORT, DB_CONNECTION} = process.env
@@ -9,8 +9,10 @@ const {SERVER_PORT, DB_CONNECTION} = process.env
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/api/users', ctrl.addUser)
-app.post('/api/users', ctrl.loginUser)
+app.get('/api/users/', ctrl.getUsers)
+app.post('/api/users/register', ctrl.registerUser)
+app.post('/api/users/login', ctrl.loginUser)
+app.get(`/api/posts/{id}`, ctrl.getPosts)
 
 massive(DB_CONNECTION)
   .then(db => {
