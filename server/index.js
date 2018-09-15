@@ -10,8 +10,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/api/users/', ctrl.getUsers)
-app.post('/api/users/register', ctrl.registerUser)
-app.post('/api/users/login', ctrl.loginUser)
+app.get('/api/auth/login', ctrl.getUsers)
+app.post('/api/auth/register', ctrl.registerUser)
+app.post('/api/auth/login', ctrl.loginUser)
 app.get(`/api/posts/{id}`, ctrl.getPosts)
 
 massive(DB_CONNECTION)
